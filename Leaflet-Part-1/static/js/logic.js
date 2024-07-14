@@ -36,29 +36,29 @@ function getColor(depth) {
     : "#FFEDA0";
 }
 
+// Function to create a circle marker
+function createCircleMarker(feature, latlng) {
+  let options = {
+    radius: getRadius(feature.properties.mag),
+    fillColor: getColor(feature.geometry.coordinates[2]),
+    color: "#000",
+    weight: 1,
+    fillOpacity: 1,
+  };
+  return L.circleMarker(latlng, options);
+}
+
+// Function to add popups
+function onEachFeature(feature, layer) {
+  if (feature.properties && feature.properties.place) {
+    layer.bindPopup(
+      `<h3>${feature.properties.place}</h3><hr><p>Magnitude: ${feature.properties.mag}<br>Depth: ${feature.geometry.coordinates[2]} km</p>`
+    );
+  }
+}
+
 // Getting our GeoJSON data
 d3.json(url).then(function (data) {
-  // Function to create a circle marker
-  function createCircleMarker(feature, latlng) {
-    let options = {
-      radius: getRadius(feature.properties.mag),
-      fillColor: getColor(feature.geometry.coordinates[2]),
-      color: "#000",
-      weight: 1,
-      fillOpacity: 1,
-    };
-    return L.circleMarker(latlng, options);
-  }
-
-  // Function to add popups
-  function onEachFeature(feature, layer) {
-    if (feature.properties && feature.properties.place) {
-      layer.bindPopup(
-        `<h3>${feature.properties.place}</h3><hr><p>Magnitude: ${feature.properties.mag}<br>Depth: ${feature.geometry.coordinates[2]} km</p>`
-      );
-    }
-  }
-
   // Add GeoJSON data to the map
   L.geoJSON(data, {
     pointToLayer: createCircleMarker,

@@ -28,12 +28,6 @@ let myMap = L.map("map", {
   layers: [streetMap],
 });
 
-// Define the GeoJSON URL for earthquake data
-let earthquakeDataUrl =
-  "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
-var tectonicPlatesUrl =
-  "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
-
 // Function to determine marker size based on earthquake magnitude
 function getRadius(magnitude) {
   return magnitude * 4;
@@ -76,6 +70,12 @@ function onEachFeature(feature, layer) {
     );
   }
 }
+
+// Define the GeoJSON URL for earthquake data
+let earthquakeDataUrl =
+  "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+var tectonicPlatesUrl =
+  "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
 
 // Getting our GeoJSON data
 d3.json(earthquakeDataUrl).then(function (data) {
